@@ -1,10 +1,12 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { nanoid } from 'nanoid';
+import { useDispatch } from 'react-redux';
+import { addContacts } from '../../redux/contactsSlice/ContactsSlice';
 
-export const Form = ({ addContacts }) => {
+export const Form = () => {
   const [contactInfo, setContactInfo] = useState({ name: '', number: '' });
+  const dispatch = useDispatch();
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -23,8 +25,7 @@ export const Form = ({ addContacts }) => {
       id: nanoid(),
     };
 
-    addContacts(contactsList);
-
+    dispatch(addContacts(contactsList));
     setContactInfo({ name: '', number: '' });
   };
 
@@ -71,8 +72,4 @@ export const Form = ({ addContacts }) => {
       </div>
     </form>
   );
-};
-
-Form.propTypes = {
-  addContacts: PropTypes.func.isRequired,
 };
