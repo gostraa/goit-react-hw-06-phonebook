@@ -1,15 +1,18 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
 import { nanoid } from 'nanoid';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addContacts } from '../../redux/contactsSlice/ContactsSlice';
+import { getStateContacts } from 'redux/selectors';
 
 export const Form = () => {
   const [contactInfo, setContactInfo] = useState({ name: '', number: '' });
+  const contacts = useSelector(getStateContacts);
   const dispatch = useDispatch();
 
   const handleChange = e => {
     const { name, value } = e.target;
+
     setContactInfo(prevInfo => ({
       ...prevInfo,
       [name]: value,
@@ -18,7 +21,16 @@ export const Form = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    const isExist = contacts.find(
+      el =>
+        el.name.toLowerCase() === contactInfo.name.toLowerCase() ||
+        el.number === contactInfo.number
+    );
 
+    if (isExist) {
+      alert('This contact already exists 😮');
+      return contacts;
+    }
     const contactsList = {
       name: contactInfo.name,
       number: contactInfo.number,
