@@ -5,7 +5,11 @@ const contactsSlice = createSlice({
   initialState: [],
   reducers: {
     addContacts: (state, action) => {
-      const isExist = state.find(el => el.name === action.payload.name);
+      const isExist = state.find(
+        el =>
+          el.name.toLowerCase() === action.payload.name.toLowerCase() ||
+          el.number === action.payload.number
+      );
 
       if (isExist) {
         alert('This contact already exists 😮');
