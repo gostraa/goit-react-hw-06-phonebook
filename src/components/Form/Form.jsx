@@ -31,13 +31,8 @@ export const Form = () => {
       alert('This contact already exists 😮');
       return contacts;
     }
-    const contactsList = {
-      name: contactInfo.name,
-      number: contactInfo.number,
-      id: nanoid(),
-    };
 
-    dispatch(addContacts(contactsList));
+    dispatch(addContacts({ ...contactInfo, id: nanoid() }));
     setContactInfo({ name: '', number: '' });
   };
 
